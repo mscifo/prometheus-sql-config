@@ -1,6 +1,7 @@
 #!/bin/sh
 
 CONFIG_DIR=${CONFIG_DIR:=/etc/prometheus-sql-config}
+PROMSQL_IMAGE_NAME=${PROMSQL_IMAGE_NAME:=dbhi/prometheus-sql}
 
 if [ ! -z $TOKEN_FILE ]; then
     if  [ -r $TOKEN_FILE ]; then
