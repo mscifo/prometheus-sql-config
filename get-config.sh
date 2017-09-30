@@ -2,8 +2,13 @@
 
 CONFIG_DIR=${CONFIG_DIR:=/etc/prometheus-sql-config}
 
-if [[ -z $TOKEN && -n $TOKEN_FILE ]]; then
-    TOKEN=$(cat $TOKEN_FILE)
+if [ ! -z $TOKEN_FILE ]; then
+    if  [ -r $TOKEN_FILE ]; then
+        echo Using token from $TOKEN_FILE
+        TOKEN=$(cat $TOKEN_FILE)
+    else
+        echo Supplied token file $TOKEN_FILE is not readable
+    fi
 fi
 
 if [ -z $TOKEN ]; then
@@ -56,8 +61,9 @@ while true; do
         fi
     else
         echo Retrieving config for the first time into $CONFIG_DIR
-        git clone https://$TOKEN@$GIT_URL $CONFIG_DIR
-        restart_prometheus_sql
+        if git clone https://$TOKEN@$GIT_URL $CONFIG_DIR; then
+            restart_prometheus_sql
+        fi
     fi
 
     sleep 30
