@@ -19,7 +19,10 @@ prometheus-sql-config:
       CONFIG_DIR: Directory to store cloned git repository. Default is /etc/prometheus-sql-config. (optional)
       PROMSQL_IMAGE_NAME: Image name of prometheus-sql. Default is dbhi/prometheus-sql. (optional) 
     volumes:
-      - /etc/prometheus-sql-config  # Change to match CONFIG_DIR
+    - /etc/prometheus-sql-config  # Change to match CONFIG_DIR
+    # Needed in order to restart PROMSQL_IMAGE_NAME container.
+    - /var/lib/docker/:/var/lib/docker:ro  
+    - /var/run:/var/run:rw
 ```
 
 ## Further Info
