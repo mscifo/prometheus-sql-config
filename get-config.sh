@@ -56,7 +56,7 @@ while true; do
         echo Checking for updated config
         cd $CONFIG_DIR
 
-        if ! git pull origin master 2>&1 | grep -q -e "(Already up-to-date|fatal)"; then
+        if ! git pull origin master 2>&1 | grep -q -E "(Already up-to-date|fatal)"; then
             echo Retrieved updated config
             restart_prometheus_sql
         fi
